@@ -87,17 +87,17 @@ import org.springframework.util.StringUtils;
 
 /**
  * Spring's default implementation of the {@link ConfigurableListableBeanFactory}
- * and {@link BeanDefinitionRegistry} interfaces: a full-fledged bean factory
+ * and {@link BeanDefinitionRegistry} interfaces: a full-fledged bean factory（成熟的Ioc容器）
  * based on bean definition metadata, extensible through post-processors.
  *
  * <p>Typical usage is registering all bean definitions first (possibly read
  * from a bean definition file), before accessing beans. Bean lookup by name
- * is therefore an inexpensive operation in a local bean definition table,
+ * is therefore an inexpensive operation in a local bean definition table（HashMap）,
  * operating on pre-resolved bean definition metadata objects.
  *
  * <p>Note that readers for specific bean definition formats are typically
- * implemented separately rather than as bean factory subclasses: see for example
- * {@link org.springframework.beans.factory.xml.XmlBeanDefinitionReader}.
+ * implemented separately rather than as bean factory subclasses（不同bean风格的阅读器独立实现，而不是BeanFactory的子类）:
+ * see for example {@link org.springframework.beans.factory.xml.XmlBeanDefinitionReader}.
  *
  * <p>For an alternative implementation of the
  * {@link org.springframework.beans.factory.ListableBeanFactory} interface,
@@ -117,6 +117,13 @@ import org.springframework.util.StringUtils;
  * @see #getBean
  * @see #resolveDependency
  */
+
+/**
+ * AbstractAutowireCapableBeanFactory: 实现属性的自动绑定功能
+ * ConfigurableListableBeanFactory: 实现ListableBeanFactory，提供了对bean definition的分析和修改的便利方法，同时也提供了对单例的预实例化
+ * BeanDefinitionRegistry：提供了beanDefinition的管理
+ * HierarchicalBeanFactory：间接实现 等级分层的BeanFactory
+ */
 @SuppressWarnings("serial")
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory
 		implements ConfigurableListableBeanFactory, BeanDefinitionRegistry, Serializable {
@@ -127,6 +134,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	static {
 		try {
 			javaxInjectProviderClass =
+					// Class.forName() 的重写
+					// Provider<T>: 提供了一个 T的实例. 通常作为一个依赖注入容器的父接口,可以注入任何类型的 T, 当然也可以注入 Provider<T>.
 					ClassUtils.forName("javax.inject.Provider", DefaultListableBeanFactory.class.getClassLoader());
 		}
 		catch (ClassNotFoundException ex) {
@@ -144,9 +153,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	@Nullable
 	private String serializationId;
 
+	// 是否允许同名的不同bean definition再次进行注册
 	/** Whether to allow re-registration of a different definition with the same name. */
 	private boolean allowBeanDefinitionOverriding = true;
 
+	// 是否允许eager类（相对于lazy）的加载，甚至延迟初始化的bean的加载
 	/** Whether to allow eager class loading even for lazy-init beans. */
 	private boolean allowEagerClassLoading = true;
 
@@ -154,9 +165,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	@Nullable
 	private Comparator<Object> dependencyComparator;
 
+	// 策略接口，用来决定一个特定的bean definition 是否满足做一个特定依赖的自动绑定的候选项
 	/** Resolver to use for checking if a bean definition is an autowire candidate. */
 	private AutowireCandidateResolver autowireCandidateResolver = SimpleAutowireCandidateResolver.INSTANCE;
 
+	// 定义了依赖类型和其对应的自动绑定值的键值对集合
 	/** Map from dependency type to corresponding autowired value. */
 	private final Map<Class<?>, Object> resolvableDependencies = new ConcurrentHashMap<>(16);
 

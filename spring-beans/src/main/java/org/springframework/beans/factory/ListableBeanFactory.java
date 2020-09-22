@@ -55,6 +55,12 @@ import org.springframework.lang.Nullable;
  * @see HierarchicalBeanFactory
  * @see BeanFactoryUtils
  */
+
+/**
+ * 1. beanFactory接口的扩展接口，它可以枚举所有的bean实例，而不是客户端通过名称一个一个的查询得出所有的实例
+ * 2. 要预加载所有的bean定义的BeanFactory可以实现这个接口来
+ * 3.接口定义了访问容器中Bean基本信息的若干方法，如查看Bean的个数、获取某一类型Bean的配置名、查看容器中是否包括某一Bean等方法
+ */
 public interface ListableBeanFactory extends BeanFactory {
 
 	/**

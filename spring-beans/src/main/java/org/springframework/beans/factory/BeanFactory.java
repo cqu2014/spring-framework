@@ -29,22 +29,22 @@ import org.springframework.lang.Nullable;
  * are available for specific purposes.
  *
  * <p>This interface is implemented by objects that hold a number of bean definitions,
- * each uniquely identified by a String name. Depending on the bean definition,
+ * each uniquely identified by a String name（唯一标示）. Depending on the bean definition,
  * the factory will return either an independent instance of a contained object
  * (the Prototype design pattern), or a single shared instance (a superior
  * alternative to the Singleton design pattern, in which the instance is a
  * singleton in the scope of the factory). Which type of instance will be returned
  * depends on the bean factory configuration: the API is the same. Since Spring
- * 2.0, further scopes are available depending on the concrete application
+ * 2.0, further scopes(更多的作用域) are available depending on the concrete application
  * context (e.g. "request" and "session" scopes in a web environment).
  *
  * <p>The point of this approach is that the BeanFactory is a central registry
- * of application components, and centralizes configuration of application
- * components (no more do individual objects need to read properties files,
+ * of application components（集中提供组件注册功能）, and centralizes configuration（集中管理配置信息）
+ * of application components (no more do individual objects need to read properties files,
  * for example). See chapters 4 and 11 of "Expert One-on-One J2EE Design and
  * Development" for a discussion of the benefits of this approach.
  *
- * <p>Note that it is generally better to rely on Dependency Injection
+ * <p>Note that it is generally better to rely on Dependency Injection（依赖注入优于手动设置）
  * ("push" configuration) to configure application objects through setters
  * or constructors, rather than use any form of "pull" configuration like a
  * BeanFactory lookup. Spring's Dependency Injection functionality is
@@ -54,7 +54,7 @@ import org.springframework.lang.Nullable;
  * source (such as an XML document), and use the {@code org.springframework.beans}
  * package to configure the beans. However, an implementation could simply return
  * Java objects it creates as necessary directly in Java code. There are no
- * constraints on how the definitions could be stored: LDAP, RDBMS, XML,
+ * constraints(约束) on how the definitions could be stored: LDAP, RDBMS, XML,
  * properties file, etc. Implementations are encouraged to support references
  * amongst beans (Dependency Injection).
  *
@@ -117,11 +117,12 @@ import org.springframework.lang.Nullable;
 public interface BeanFactory {
 
 	/**
-	 * Used to dereference a {@link FactoryBean} instance and distinguish it from
+	 * Used to dereference（去除引用） a {@link FactoryBean} instance and distinguish it from
 	 * beans <i>created</i> by the FactoryBean. For example, if the bean named
 	 * {@code myJndiObject} is a FactoryBean, getting {@code &myJndiObject}
 	 * will return the factory, not the instance returned by the factory.
 	 */
+	// 区别获取FactoryBean所生成的bean(myJndiObject)和factoryBean实例本身(&myJndiObject)
 	String FACTORY_BEAN_PREFIX = "&";
 
 
@@ -209,7 +210,7 @@ public interface BeanFactory {
 	<T> T getBean(Class<T> requiredType, Object... args) throws BeansException;
 
 	/**
-	 * Return a provider for the specified bean, allowing for lazy on-demand retrieval
+	 * Return a provider(提供者) for the specified bean, allowing for lazy on-demand retrieval
 	 * of instances, including availability and uniqueness options.
 	 * @param requiredType type the bean must match; can be an interface or superclass
 	 * @return a corresponding provider handle
@@ -249,6 +250,7 @@ public interface BeanFactory {
 	 * @param name the name of the bean to query
 	 * @return whether a bean with the given name is present
 	 */
+	// 有等级体系和非等级体系两种
 	boolean containsBean(String name);
 
 	/**

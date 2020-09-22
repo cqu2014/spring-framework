@@ -40,20 +40,20 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Generic ApplicationContext implementation that holds a single internal
+ * Generic ApplicationContext（通用应用上下文） implementation that holds a single internal
  * {@link org.springframework.beans.factory.support.DefaultListableBeanFactory}
- * instance and does not assume a specific bean definition format. Implements
- * the {@link org.springframework.beans.factory.support.BeanDefinitionRegistry}
+ * instance and does not assume a specific bean definition format（未定义bean definition具体定义格式）.
+ * Implements the {@link org.springframework.beans.factory.support.BeanDefinitionRegistry}
  * interface in order to allow for applying any bean definition readers to it.
  *
  * <p>Typical usage is to register a variety of bean definitions via the
  * {@link org.springframework.beans.factory.support.BeanDefinitionRegistry}
- * interface and then call {@link #refresh()} to initialize those beans
- * with application context semantics (handling
- * {@link org.springframework.context.ApplicationContextAware}, auto-detecting
+ * interface（通过BeanDefinitionRegistry注册各种bean definition）and then
+ * call {@link #refresh()} to initialize those beans with application context
+ * semantics (handling {@link org.springframework.context.ApplicationContextAware}, auto-detecting（自动监测）
  * {@link org.springframework.beans.factory.config.BeanFactoryPostProcessor BeanFactoryPostProcessors},
  * etc).
- *
+ *（王道学习）
  * <p>In contrast to other ApplicationContext implementations that create a new
  * internal BeanFactory instance for each refresh, the internal BeanFactory of
  * this context is available right from the start, to be able to register bean
