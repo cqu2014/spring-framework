@@ -38,6 +38,15 @@ import org.springframework.lang.Nullable;
  * @see org.springframework.beans.factory.support.RootBeanDefinition
  * @see org.springframework.beans.factory.support.ChildBeanDefinition
  */
+
+/**
+ * 管理JavaBean和JavaBean之间的依赖关系，Spring将JavaBean中的数据结构转化成BeanDefinition中的数据结构进行维护
+ * 继承了AttributeAccessor（用来附加和访问元数据的接口）和BeanMetadataElement（获取配置）
+ 	定义的bean 设置了三种角色
+	  	1. Application  主要角色，应用程序默认定义的
+	  	2. Support       应用程序定义的比较大的对象，被认为足够重要的，足以引起注意
+	  	3. infrastructure   Spring内容定义的，只在bean容器后台内部工作，与用户无关
+ */
 public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 
 	/**

@@ -37,6 +37,10 @@ import org.springframework.util.StringUtils;
  * @see org.springframework.beans.factory.support.RootBeanDefinition
  * @see org.springframework.beans.factory.support.ChildBeanDefinition
  */
+
+/**
+ * 其就是一个BeanDefinition的持有者，其定义了一下变量，并对以下变量提供get和set操作
+ */
 public class BeanDefinitionHolder implements BeanMetadataElement {
 
 	private final BeanDefinition beanDefinition;

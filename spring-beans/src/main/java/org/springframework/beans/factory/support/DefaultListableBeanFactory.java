@@ -173,6 +173,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	/** Map from dependency type to corresponding autowired value. */
 	private final Map<Class<?>, Object> resolvableDependencies = new ConcurrentHashMap<>(16);
 
+	// 存放beanName -> BeanDefinition
 	/** Map of bean definition objects, keyed by bean name. */
 	private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>(256);
 
@@ -185,10 +186,14 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	/** Map of singleton-only bean names, keyed by dependency type. */
 	private final Map<Class<?>, String[]> singletonBeanNamesByType = new ConcurrentHashMap<>(64);
 
+	// 按照注册顺序存储注册的bean definition 的名称列表
 	/** List of bean definition names, in registration order. */
 	private volatile List<String> beanDefinitionNames = new ArrayList<>(256);
 
-	/** List of names of manually registered singletons, in registration order. */
+	/** List of names of manually registered singletons, in registration order.
+	 * 	手动指的是通过调用以下方法注册的 bean：
+	 * 		registerSingleton(String beanName, Object singletonObject)
+	 */
 	private volatile Set<String> manualSingletonNames = new LinkedHashSet<>(16);
 
 	/** Cached array of bean definition names in case of frozen configuration. */
@@ -933,6 +938,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 	//---------------------------------------------------------------------
 	// Implementation of BeanDefinitionRegistry interface
+	// 继承自 BeanDefinitionRegistry的方法 进行bean definition的注册
 	//---------------------------------------------------------------------
 
 	@Override
@@ -953,10 +959,18 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		}
 
 		BeanDefinition existingDefinition = this.beanDefinitionMap.get(beanName);
+		// Ioc容器中已经含有了beanName的组件，落日志
 		if (existingDefinition != null) {
+			// 不允许重写已存在的bean definition
 			if (!isAllowBeanDefinitionOverriding()) {
 				throw new BeanDefinitionOverrideException(beanName, beanDefinition, existingDefinition);
 			}
+			/**
+			 * BeanDefinition 定义的bean 设置了三种角色:
+			 * 	  	1. Application:0  主要角色，应用程序默认定义的
+			 * 	  	2. Support:1     应用程序定义的比较大的对象，被认为足够重要的，足以引起注意
+			 * 	  	3. infrastructure:2   Spring内容定义的，只在bean容器后台内部工作，与用户无关
+			 */
 			else if (existingDefinition.getRole() < beanDefinition.getRole()) {
 				// e.g. was ROLE_APPLICATION, now overriding with ROLE_SUPPORT or ROLE_INFRASTRUCTURE
 				if (logger.isInfoEnabled()) {
@@ -981,15 +995,18 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			}
 			this.beanDefinitionMap.put(beanName, beanDefinition);
 		}
+		// beanName不存在于Ioc容器中
 		else {
 			if (hasBeanCreationStarted()) {
 				// Cannot modify startup-time collection elements anymore (for stable iteration)
+				// 新元素使用线程安全的方式进行操作：beanDefinitionNames扩容
 				synchronized (this.beanDefinitionMap) {
 					this.beanDefinitionMap.put(beanName, beanDefinition);
 					List<String> updatedDefinitions = new ArrayList<>(this.beanDefinitionNames.size() + 1);
 					updatedDefinitions.addAll(this.beanDefinitionNames);
 					updatedDefinitions.add(beanName);
 					this.beanDefinitionNames = updatedDefinitions;
+					// 此处的bean 当然不是 手动 注册的
 					removeManualSingletonName(beanName);
 				}
 			}
@@ -1003,9 +1020,12 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		}
 
 		if (existingDefinition != null || containsSingleton(beanName)) {
+			/**
+			 * reset bean definition caches
+			 * Called after an existing bean definition has been replaced or removed
+			 */
 			resetBeanDefinition(beanName);
-		}
-		else if (isConfigurationFrozen()) {
+		} else if (isConfigurationFrozen()) {
 			clearByTypeCache();
 		}
 	}
@@ -1041,7 +1061,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 	/**
 	 * Reset all bean definition caches for the given bean,
-	 * including the caches of beans that are derived from it.
+	 * including the caches of beans that are derived from（衍生自） it.
 	 * <p>Called after an existing bean definition has been replaced or removed,
 	 * triggering {@link #clearMergedBeanDefinition}, {@link #destroySingleton}
 	 * and {@link MergedBeanDefinitionPostProcessor#resetBeanDefinition} on the

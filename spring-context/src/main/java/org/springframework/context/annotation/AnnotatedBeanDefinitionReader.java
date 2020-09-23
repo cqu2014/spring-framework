@@ -35,7 +35,7 @@ import org.springframework.util.Assert;
 
 /**
  * Convenient adapter for programmatic registration of bean classes.
- *
+ *	(以编程方式注册bean的适配器)
  * <p>This is an alternative to {@link ClassPathBeanDefinitionScanner}, applying
  * the same resolution of annotations but for explicitly registered classes only.
  *
@@ -45,6 +45,11 @@ import org.springframework.util.Assert;
  * @author Phillip Webb
  * @since 3.0
  * @see AnnotationConfigApplicationContext#register
+ */
+
+/**
+ * 以编程方式注册bean的适配器
+ * 扫描注解bean的定义文件
  */
 public class AnnotatedBeanDefinitionReader {
 
@@ -249,18 +254,21 @@ public class AnnotatedBeanDefinitionReader {
 	private <T> void doRegisterBean(Class<T> beanClass, @Nullable String name,
 			@Nullable Class<? extends Annotation>[] qualifiers, @Nullable Supplier<T> supplier,
 			@Nullable BeanDefinitionCustomizer[] customizers) {
-
+		// 通用注解类bean definition，组件定义格式
 		AnnotatedGenericBeanDefinition abd = new AnnotatedGenericBeanDefinition(beanClass);
 		if (this.conditionEvaluator.shouldSkip(abd.getMetadata())) {
 			return;
 		}
-
+		// 设置supplier
 		abd.setInstanceSupplier(supplier);
+		// Bean Scope 数据
 		ScopeMetadata scopeMetadata = this.scopeMetadataResolver.resolveScopeMetadata(abd);
 		abd.setScope(scopeMetadata.getScopeName());
+		// Bean 实例名称
 		String beanName = (name != null ? name : this.beanNameGenerator.generateBeanName(abd, this.registry));
 
 		AnnotationConfigUtils.processCommonDefinitionAnnotations(abd);
+		// 遍历注解数组 设置 Primary，Lazy和其他普通注解
 		if (qualifiers != null) {
 			for (Class<? extends Annotation> qualifier : qualifiers) {
 				if (Primary.class == qualifier) {
@@ -279,7 +287,7 @@ public class AnnotatedBeanDefinitionReader {
 				customizer.customize(abd);
 			}
 		}
-
+		// 定义beanDefinition的持有者
 		BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(abd, beanName);
 		definitionHolder = AnnotationConfigUtils.applyScopedProxyMode(scopeMetadata, definitionHolder, this.registry);
 		BeanDefinitionReaderUtils.registerBeanDefinition(definitionHolder, this.registry);

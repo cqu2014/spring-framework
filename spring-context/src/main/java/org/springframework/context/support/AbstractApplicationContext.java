@@ -85,13 +85,13 @@ import org.springframework.util.ReflectionUtils;
 
 /**
  * Abstract implementation of the {@link org.springframework.context.ApplicationContext}
- * interface. Doesn't mandate the type of storage used for configuration; simply
- * implements common context functionality. Uses the Template Method design pattern,
- * requiring concrete subclasses to implement abstract methods.
+ * interface. Doesn't mandate the type of storage used for configuration;
+ * (不强制配置的存储类型) simply implements common context functionality.（只实现通用上下文的方法）
+ * Uses the Template Method design pattern,requiring concrete subclasses to implement abstract methods.
  *
  * <p>In contrast to a plain BeanFactory, an ApplicationContext is supposed
  * to detect special beans defined in its internal bean factory:
- * Therefore, this class automatically registers
+ * Therefore, this class automatically registers（自动注册下面三种类型的组件）
  * {@link org.springframework.beans.factory.config.BeanFactoryPostProcessor BeanFactoryPostProcessors},
  * {@link org.springframework.beans.factory.config.BeanPostProcessor BeanPostProcessors},
  * and {@link org.springframework.context.ApplicationListener ApplicationListeners}
@@ -125,6 +125,11 @@ import org.springframework.util.ReflectionUtils;
  * @see org.springframework.context.event.ApplicationEventMulticaster
  * @see org.springframework.context.ApplicationListener
  * @see org.springframework.context.MessageSource
+ */
+
+/**
+ * 只实现通用上下文的功能，不强制配置的存储类型
+ * 定义集中组件的beanName：messageSource、lifecycleProcessor、applicationEventMulticaster
  */
 public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		implements ConfigurableApplicationContext {

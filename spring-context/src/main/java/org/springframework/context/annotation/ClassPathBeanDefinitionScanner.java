@@ -38,7 +38,7 @@ import org.springframework.util.PatternMatchUtils;
 /**
  * A bean definition scanner that detects bean candidates on the classpath,
  * registering corresponding bean definitions with a given registry ({@code BeanFactory}
- * or {@code ApplicationContext}).
+ * or {@code ApplicationContext}).(扫表检查classpath下的候选bean definition并注册到容器)
  *
  * <p>Candidate classes are detected through configurable type filters. The
  * default filters include classes that are annotated with Spring's
@@ -59,6 +59,10 @@ import org.springframework.util.PatternMatchUtils;
  * @see org.springframework.stereotype.Repository
  * @see org.springframework.stereotype.Service
  * @see org.springframework.stereotype.Controller
+ */
+
+/**
+ * 扫表检查classpath下的候选bean definition并注册到容器
  */
 public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateComponentProvider {
 

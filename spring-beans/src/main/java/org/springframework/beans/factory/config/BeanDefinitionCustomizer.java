@@ -18,6 +18,7 @@ package org.springframework.beans.factory.config;
 
 /**
  * Callback for customizing a given bean definition.
+ * （给定定制bean definition的回调）
  * Designed for use with a lambda expression or method reference.
  *
  * @author Juergen Hoeller

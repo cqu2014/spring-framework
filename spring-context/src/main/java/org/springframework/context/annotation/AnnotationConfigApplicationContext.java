@@ -36,7 +36,7 @@ import org.springframework.util.Assert;
  * as well as for classpath scanning using {@link #scan(String...)}.
  *
  * <p>In case of multiple {@code @Configuration} classes, {@link Bean @Bean} methods
- * defined in later classes will override those defined in earlier classes. This can
+ * defined in later classes will override those defined in earlier classes. (bean 覆盖)This can
  * be leveraged to deliberately（故意地） override certain bean definitions via an extra
  * {@code @Configuration} class.
  *
@@ -67,7 +67,14 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * through {@link #register} calls and then manually {@linkplain #refresh refreshed}.
 	 */
 	public AnnotationConfigApplicationContext() {
+		/**
+		 * super[GenericApplicationContext 初始化 beanFactory = new DefaultListableBeanFactory()]
+		 * super[DefaultResourceLoader初始化 classLoader = ClassUtils.getDefaultClassLoader()：线程的加载器]
+		 */
+
+		// 扫描并读取注解类型的bean definition
 		this.reader = new AnnotatedBeanDefinitionReader(this);
+		// 扫表检查classpath下的候选bean definition并注册到容器(context)
 		this.scanner = new ClassPathBeanDefinitionScanner(this);
 	}
 
@@ -88,6 +95,9 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * {@link Configuration @Configuration} classes
 	 */
 	public AnnotationConfigApplicationContext(Class<?>... componentClasses) {
+		/**
+		 * 初始化 defaultListableBeanFactory和 classLoader
+		 */
 		this();
 		register(componentClasses);
 		refresh();

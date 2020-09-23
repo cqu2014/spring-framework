@@ -53,11 +53,11 @@ import org.springframework.util.Assert;
  * semantics (handling {@link org.springframework.context.ApplicationContextAware}, auto-detecting（自动监测）
  * {@link org.springframework.beans.factory.config.BeanFactoryPostProcessor BeanFactoryPostProcessors},
  * etc).
- *（王道学习）
+ *（王道学习-2020-09-23）
  * <p>In contrast to other ApplicationContext implementations that create a new
  * internal BeanFactory instance for each refresh, the internal BeanFactory of
- * this context is available right from the start, to be able to register bean
- * definitions on it. {@link #refresh()} may only be called once.
+ * this context is available right from the start（该内部BeanFactory从一开始就可用）,
+ * to be able to register bean definitions on it. {@link #refresh()} may only be called once.
  *
  * <p>Usage example:
  *
@@ -74,7 +74,7 @@ import org.springframework.util.Assert;
  *
  * For the typical case of XML bean definitions, simply use
  * {@link ClassPathXmlApplicationContext} or {@link FileSystemXmlApplicationContext},
- * which are easier to set up - but less flexible, since you can just use standard
+ * which are easier to set up - but less flexible（不够灵活）, since you can just use standard
  * resource locations for XML bean definitions, rather than mixing arbitrary bean
  * definition formats. The equivalent in a web environment is
  * {@link org.springframework.web.context.support.XmlWebApplicationContext}.
@@ -90,6 +90,13 @@ import org.springframework.util.Assert;
  * @see #refresh()
  * @see org.springframework.beans.factory.xml.XmlBeanDefinitionReader
  * @see org.springframework.beans.factory.support.PropertiesBeanDefinitionReader
+ */
+
+/**
+ * 通用应用上下文,内部包含 IOC容器始祖 DefaultListableBeanFactory
+ * 典型用法是通过BeanDefinitionRegistry注册各种bean definition，然后
+ * 调用{@link #refresh()}初始化beans with applicationContext
+ * 但未约束bean definition具体定义格式（xml，file，properties etc）
  */
 public class GenericApplicationContext extends AbstractApplicationContext implements BeanDefinitionRegistry {
 
