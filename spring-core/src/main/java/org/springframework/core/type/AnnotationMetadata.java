@@ -38,6 +38,12 @@ import org.springframework.core.annotation.MergedAnnotations.SearchStrategy;
  * @see org.springframework.core.type.classreading.MetadataReader#getAnnotationMetadata()
  * @see AnnotatedTypeMetadata
  */
+
+/**
+ * 定义处理 类注解（annotations）的操作（继承AnnotatedTypeMetadata）
+ * 其对class相关的处理能力继承自ClassMetadata
+ * 不需要加载class
+ */
 public interface AnnotationMetadata extends ClassMetadata, AnnotatedTypeMetadata {
 
 	/**

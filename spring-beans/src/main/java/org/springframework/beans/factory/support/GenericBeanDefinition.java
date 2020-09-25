@@ -22,6 +22,7 @@ import org.springframework.util.ObjectUtils;
 
 /**
  * GenericBeanDefinition is a one-stop shop for standard bean definition purposes.
+ * （标准Bean定义的一站式方法）
  * Like any bean definition, it allows for specifying a class plus optionally
  * constructor argument values and property values. Additionally, deriving from a
  * parent bean definition can be flexibly configured through the "parentName" property.
@@ -38,6 +39,10 @@ import org.springframework.util.ObjectUtils;
  * @see ChildBeanDefinition
  */
 @SuppressWarnings("serial")
+
+/**
+ * 标准Bean定义的一站式方法
+ */
 public class GenericBeanDefinition extends AbstractBeanDefinition {
 
 	@Nullable

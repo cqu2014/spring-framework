@@ -132,8 +132,8 @@ public class AnnotatedBeanDefinitionReader {
 
 	/**
 	 * Register one or more component classes to be processed.
-	 * <p>Calls to {@code register} are idempotent; adding the same
-	 * component class more than once has no additional effect.
+	 * <p>Calls to {@code register} are idempotent(幂等); adding the same
+	 * component class more than once has no additional effect.（幂等保证了添加多次无影响）
 	 * @param componentClasses one or more component classes,
 	 * e.g. {@link Configuration @Configuration} classes
 	 */
@@ -249,12 +249,12 @@ public class AnnotatedBeanDefinitionReader {
 	 * (may be {@code null})
 	 * @param customizers one or more callbacks for customizing the factory's
 	 * {@link BeanDefinition}, e.g. setting a lazy-init or primary flag
-	 * @since 5.0
+	 * @since 5.0（spring 5提供）
 	 */
 	private <T> void doRegisterBean(Class<T> beanClass, @Nullable String name,
 			@Nullable Class<? extends Annotation>[] qualifiers, @Nullable Supplier<T> supplier,
 			@Nullable BeanDefinitionCustomizer[] customizers) {
-		// 通用注解类bean definition，组件定义格式
+		// TODO https://blog.csdn.net/shenmaxiang/article/details/79456099
 		AnnotatedGenericBeanDefinition abd = new AnnotatedGenericBeanDefinition(beanClass);
 		if (this.conditionEvaluator.shouldSkip(abd.getMetadata())) {
 			return;

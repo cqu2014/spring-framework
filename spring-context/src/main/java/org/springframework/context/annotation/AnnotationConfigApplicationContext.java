@@ -96,9 +96,13 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 */
 	public AnnotationConfigApplicationContext(Class<?>... componentClasses) {
 		/**
-		 * 初始化 defaultListableBeanFactory和 classLoader
+		 * 父类实例化 defaultListableBeanFactory和 classLoader
+		 * 无参构造函数初始化 AnnotatedBeanDefinitionReader 和 ClassPathBeanDefinitionScanner
 		 */
 		this();
+		/**
+		 *
+		 */
 		register(componentClasses);
 		refresh();
 	}
