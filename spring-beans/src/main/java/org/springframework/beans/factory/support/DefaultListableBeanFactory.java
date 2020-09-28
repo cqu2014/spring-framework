@@ -950,6 +950,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 		if (beanDefinition instanceof AbstractBeanDefinition) {
 			try {
+				// 效验methodOverrides 是否与工厂方法并存或者methodOverrides对应的方法根本不存在
 				((AbstractBeanDefinition) beanDefinition).validate();
 			}
 			catch (BeanDefinitionValidationException ex) {
@@ -957,7 +958,9 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 						"Validation of bean definition failed", ex);
 			}
 		}
-
+		/**
+		 * 对容器中已经存在了一个同名bean的处理方法。如果对应beanName已经注册 并且beanName不能被覆盖,则抛出异常，否则后注册的覆盖先注册的
+		 */
 		BeanDefinition existingDefinition = this.beanDefinitionMap.get(beanName);
 		// Ioc容器中已经含有了beanName的组件，落日志
 		if (existingDefinition != null) {

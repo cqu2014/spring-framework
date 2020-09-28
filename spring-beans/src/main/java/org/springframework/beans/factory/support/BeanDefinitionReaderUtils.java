@@ -152,7 +152,7 @@ public abstract class BeanDefinitionReaderUtils {
 	/**
 	 * Register the given bean definition with the given bean factory.
 	 * @param definitionHolder the bean definition including name and aliases
-	 * @param registry the bean factory to register with
+	 * @param registry the bean factory to register with（容器）
 	 * @throws BeanDefinitionStoreException if registration failed
 	 */
 	public static void registerBeanDefinition(
@@ -161,6 +161,7 @@ public abstract class BeanDefinitionReaderUtils {
 
 		// Register bean definition under primary name.
 		String beanName = definitionHolder.getBeanName();
+		// 最终调用DefaultListableBeanFactory的 registerBeanDefinition
 		registry.registerBeanDefinition(beanName, definitionHolder.getBeanDefinition());
 
 		// Register aliases for bean name, if any.

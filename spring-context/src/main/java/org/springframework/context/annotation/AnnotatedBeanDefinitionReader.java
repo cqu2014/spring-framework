@@ -146,13 +146,14 @@ public class AnnotatedBeanDefinitionReader {
 	/**
 	 * Register a bean from the given bean class, deriving its metadata from
 	 * class-declared annotations.
-	 * @param beanClass the class of the bean
+	 * @param beanClass the class of the bean（初始化传入的类）
 	 */
 	public void registerBean(Class<?> beanClass) {
 		doRegisterBean(beanClass, null, null, null, null);
 	}
 
 	/**
+	 *
 	 * Register a bean from the given bean class, deriving its metadata from
 	 * class-declared annotations.
 	 * @param beanClass the class of the bean
@@ -239,10 +240,10 @@ public class AnnotatedBeanDefinitionReader {
 	}
 
 	/**
-	 * Register a bean from the given bean class, deriving its metadata from
+	 * Register a bean from the given bean class（配置类）, deriving its metadata from
 	 * class-declared annotations.
 	 * @param beanClass the class of the bean
-	 * @param name an explicit name for the bean
+	 * @param name an explicit（具体的） name for the bean
 	 * @param qualifiers specific qualifier annotations to consider, if any,
 	 * in addition to qualifiers at the bean class level
 	 * @param supplier a callback for creating an instance of the bean
@@ -254,8 +255,9 @@ public class AnnotatedBeanDefinitionReader {
 	private <T> void doRegisterBean(Class<T> beanClass, @Nullable String name,
 			@Nullable Class<? extends Annotation>[] qualifiers, @Nullable Supplier<T> supplier,
 			@Nullable BeanDefinitionCustomizer[] customizers) {
-		// TODO https://blog.csdn.net/shenmaxiang/article/details/79456099
+		// 描述spring中bean class信息并具有getMetadata()功能
 		AnnotatedGenericBeanDefinition abd = new AnnotatedGenericBeanDefinition(beanClass);
+		// 主要用于完成条件注解@Conditional的解析和判断,shouldSkip就是用于判断@Conditional下的配置是否被启用
 		if (this.conditionEvaluator.shouldSkip(abd.getMetadata())) {
 			return;
 		}
@@ -264,11 +266,23 @@ public class AnnotatedBeanDefinitionReader {
 		// Bean Scope 数据
 		ScopeMetadata scopeMetadata = this.scopeMetadataResolver.resolveScopeMetadata(abd);
 		abd.setScope(scopeMetadata.getScopeName());
-		// Bean 实例名称
+		// 传入name为null，如果abd not instanceof AnnotatedBeanDefinition则使用默认的类名（不包含package首字母消息)
 		String beanName = (name != null ? name : this.beanNameGenerator.generateBeanName(abd, this.registry));
 
+		/**
+		 * processCommonDefinitionAnnotations方法处理了5个注解:
+		 * @lazy注解：用于指定该Bean是否懒加载，如果该注解的value为true的话，则这个bean在spring容器初始化之后，第一次使用时才初始化，AbstractBeanDefinition中定义该值的默认值是false
+		 * @primary注解：自动装配时当出现多个Bean候选者时，被注解为@Primary的Bean将作为首选者，否则将抛出异常
+		 * @DependsOn注解：定义Bean初始化顺序
+		 * 如果这个bean是AbstractBeanDefinition的子类的话，还会处理以下两个注解：
+		 * 		@Role注解：用于用户自定义的bean，value值是int类型，表明该bean在应用中的角色，默认值是0，极少用到
+		 * 		@Description注解：用于描述bean，提高代码可读性，极少用到
+		 */
 		AnnotationConfigUtils.processCommonDefinitionAnnotations(abd);
-		// 遍历注解数组 设置 Primary，Lazy和其他普通注解
+		/**
+		 * 针对 @Qualifier注解的
+		 * @Autowired和@Qualifier结合使用时，自动注入的策略就从byType转变成byName
+		 */
 		if (qualifiers != null) {
 			for (Class<? extends Annotation> qualifier : qualifiers) {
 				if (Primary.class == qualifier) {
@@ -282,14 +296,35 @@ public class AnnotatedBeanDefinitionReader {
 				}
 			}
 		}
+		/**
+		 *  这段代码是spring5.0以后新加入的，Spring 5允许使用lambda表达式来自定义注册一个bean
+		 */
 		if (customizers != null) {
 			for (BeanDefinitionCustomizer customizer : customizers) {
 				customizer.customize(abd);
 			}
 		}
-		// 定义beanDefinition的持有者
+		// 把Bean definition简单的封装为BeanDefinitionHolder
 		BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(abd, beanName);
+		/**
+		 * 首先需要获得ScopedProxyMode值，这个值是@scope注解中使用proxyMode属性设置的，默认为NO，就是没有代理
+		 * 它还可被设置为ScopedProxyMode.INTERFACES或者是ScopedProxyMode.TARGET_CLASS
+		 * @scope注解的value可以设置为以下几种：
+		 *  单例（singleton）：在整个应用中，只创建bean的一个实例
+		 * 	原型（prototype）：每次注入或者通过Spring应用上下文获取的时候，都会创建一个新的实例
+		 *  会话（session）：在Web应用中，为每个会话创建一个bean实例
+		 *  请求（request）：在Web应用中，为每个请求创建一个bean实例
+		 *
+		 *  当一个singleton作用域的bean中需要注入一个session作用域的bean的时候，会报错，因为此时application没有人访问，session作用域bean没有创建，所以出现了问题
+		 *  spring提供给我们的解决方案就是通过设置proxyMode属性的值来解决，当他设置为ScopedProxyMode.INTERFACES或者是ScopedProxyMode.TARGET_CLASS时
+		 *  spring会为session作用域bean创建代理对象，而真正调用的bean则在运行时懒加载，两者的区别是一个使用JDK提供的动态代理实现，一个使用CGLIB实现
+		 * 	@Bold这段代码就是通过判断proxyMode的值为注册的Bean创建相应模式的代理对象。默认不创建
+		 */
 		definitionHolder = AnnotationConfigUtils.applyScopedProxyMode(scopeMetadata, definitionHolder, this.registry);
+		/**
+		 * 注册bean with definitionHolder alias to registry(AnnotationConfigApplicationContext应用上下文)
+		 * 此处注入默认Ioc容器 DefaultListableBeanFactory中
+		 */
 		BeanDefinitionReaderUtils.registerBeanDefinition(definitionHolder, this.registry);
 	}
 
