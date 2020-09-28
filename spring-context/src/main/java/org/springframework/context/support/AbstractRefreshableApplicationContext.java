@@ -31,14 +31,16 @@ import org.springframework.lang.Nullable;
  * creating a new internal bean factory instance every time.
  * Typically (but not necessarily), such a context will be driven by
  * a set of config locations to load bean definitions from.
- *
+ * --核心配置接口ApplicationContext的基础实现类，通常会加载一组bean定义文件
  * <p>The only method to be implemented by subclasses is {@link #loadBeanDefinitions},
  * which gets invoked on each refresh. A concrete implementation is supposed to load
  * bean definitions into the given
+ * -- 子类唯一必须实现的是loadBeanDefinitions方法以加载特定的bean定义文件，然后注册到Ioc容器中
  * {@link org.springframework.beans.factory.support.DefaultListableBeanFactory},
  * typically delegating to one or more specific bean definition readers.
  *
  * <p><b>Note that there is a similar base class for WebApplicationContexts.</b>
+ * -- 类似的处理WebApplicationContexts的基类
  * {@link org.springframework.web.context.support.AbstractRefreshableWebApplicationContext}
  * provides the same subclassing strategy, but additionally pre-implements
  * all context functionality for web environments. There is also a
@@ -61,6 +63,11 @@ import org.springframework.lang.Nullable;
  * @see ClassPathXmlApplicationContext
  * @see FileSystemXmlApplicationContext
  * @see org.springframework.context.annotation.AnnotationConfigApplicationContext
+ */
+
+/**
+ * 实现ApplicationContext功能的基类，主要功能：加载各种bean定义文件并注册到 DefaultListableBeanFactory中
+ * 子类必须实现loadBeanDefinitions以完成特定bean定义文件的加载
  */
 public abstract class AbstractRefreshableApplicationContext extends AbstractApplicationContext {
 
@@ -117,16 +124,22 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 * bean factory, shutting down the previous bean factory (if any) and
 	 * initializing a fresh bean factory for the next phase of the context's lifecycle.
 	 */
+	// --真正实现beanFactory的刷新并将bean定义
 	@Override
 	protected final void refreshBeanFactory() throws BeansException {
+		// 已存在BeanFactory则销毁其中beans并关闭该BeanFactory
 		if (hasBeanFactory()) {
 			destroyBeans();
 			closeBeanFactory();
 		}
 		try {
+			// 创建新的beanFactory
 			DefaultListableBeanFactory beanFactory = createBeanFactory();
+			// 设置初始化id
 			beanFactory.setSerializationId(getId());
+			// 设置是否允许bean重写和是否允许循环依赖
 			customizeBeanFactory(beanFactory);
+			// 子类必须实现的加载特定的bean factory
 			loadBeanDefinitions(beanFactory);
 			this.beanFactory = beanFactory;
 		}

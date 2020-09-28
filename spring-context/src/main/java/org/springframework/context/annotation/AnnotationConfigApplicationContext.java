@@ -104,6 +104,9 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 		 * 循环获取 componentClasses将 bean 注解到 defaultListableBeanFactory 中 with beanName and alias
 		 */
 		register(componentClasses);
+		/**
+		 *
+		 */
 		refresh();
 	}
 
