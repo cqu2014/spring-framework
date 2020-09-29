@@ -22,7 +22,7 @@ import org.springframework.beans.BeansException;
  * Factory hook that allows for custom modification of an application context's
  * bean definitions, adapting the bean property values of the context's underlying
  * bean factory.
- *
+ * (允许修改Ioc容器中的所有 bean definition，并可任意修改bean的属性)
  * <p>Useful for custom config files targeted at system administrators that
  * override bean properties configured in the application context. See
  * {@link PropertyResourceConfigurer} and its concrete implementations for
@@ -59,14 +59,22 @@ import org.springframework.beans.BeansException;
  * @see BeanPostProcessor
  * @see PropertyResourceConfigurer
  */
+
+/**
+ *	bean工厂的bean属性处理容器，可以管理bean Factory内所有的bean definition（所有定义均加载但未实例化）数据，
+ * 并可随心所欲的修改属性
+ *
+ * 另外一个接口是：{@link BeanPostProcessor}
+ */
 @FunctionalInterface
 public interface BeanFactoryPostProcessor {
 
 	/**
 	 * Modify the application context's internal bean factory after its standard
 	 * initialization. All bean definitions will have been loaded, but no beans
-	 * will have been instantiated yet. This allows for overriding or adding
-	 * properties even to eager-initializing beans.
+	 * will have been instantiated（实例化） yet（所有bean定义均已加载但均未实例化）.
+	 * This allows for overriding or adding properties even to eager-initializing beans.
+	 * （相对于 lazy加载而言）
 	 * @param beanFactory the bean factory used by the application context
 	 * @throws org.springframework.beans.BeansException in case of errors
 	 */

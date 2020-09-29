@@ -55,6 +55,21 @@ import org.springframework.lang.Nullable;
  * @see ConfigurableBeanFactory#addBeanPostProcessor
  * @see BeanFactoryPostProcessor
  */
+
+/**
+ * BeanPostProcessor是Spring IOC容器给我们提供的一个扩展接口
+ * ===Spring IOC容器实例化Bean===
+ * ===调用BeanPostProcessor的postProcessBeforeInitialization方法===
+ * ===调用bean实例的初始化方法===
+ * ===调用BeanPostProcessor的postProcessAfterInitialization方法===
+ *
+ * 另外一个接口是：{@link BeanFactoryPostProcessor}
+ *
+ * 踩的坑：
+ * BeanPostProcessor是Spring的Bean工厂中一个非常重要的钩子，允许Spring框架在新创建Bean实例时对其进行定制化修改。比如我们对Bean内容进行修改、创建代理对象等等~
+ * BeanPostProcessor本身也是一个Bean，一般而言其实例化时机要早过普通的Bean，但是BeanPostProcessor有时也会依赖一些Bean，这就导致了一些普通Bean的实例化早于BeanPostProcessor
+ * 的可能情况，由此如果使用不当，就会造成一些问题
+ */
 public interface BeanPostProcessor {
 
 	/**

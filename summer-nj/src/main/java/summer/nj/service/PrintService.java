@@ -13,4 +13,11 @@ public interface PrintService {
 	 * Hello spring
 	 */
 	void hello();
+
+	/**
+	 * Hello spring
+	 *
+	 * @param prefix
+	 */
+	void hello(String prefix);
 }
