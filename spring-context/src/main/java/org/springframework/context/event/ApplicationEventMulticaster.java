@@ -34,6 +34,10 @@ import org.springframework.lang.Nullable;
  * @author Stephane Nicoll
  * @see ApplicationListener
  */
+
+/**
+ * 管理事件监听器并完成事件发布功能--事件管理器
+ */
 public interface ApplicationEventMulticaster {
 
 	/**

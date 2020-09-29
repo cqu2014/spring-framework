@@ -525,48 +525,82 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			/**
 			 * 步骤一：
 			 *	1. 刷新前的准备工作，记录启动时间
-			 *  2. 设置一些boolean的状态位，处理配置文件里的占位符
+			 *  2. 设置一些boolean的状态位，处理配置文件里的占位符：${"placeholder"}
 			 */
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory.
 			/**
-			 * 这一步的核心是refreshBeanFactory方法：
-			 * 	在方法中加载了bean的定义信息,loadBeanDefinitions方法将bean的定义，或其他定义
+			 * 步骤二：
+			 * 	这一步的核心是refreshBeanFactory方法：在方法中加载了bean的定义信息,loadBeanDefinitions方法
+			 * 	加载各种格式的bean definition
 			 */
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// Prepare the bean factory for use in this context.
 			/**
+			 * 步骤三：
 			 * 对BeanFactory做一些准备工作：
-			 * 例如设置BeanClassLoader，BeanPostProcessor
-			 * 装载一些特殊的bean，例如environment, systemProperties
+			 * 	例如设置BeanClassLoader，BeanPostProcessor
+			 * 	装载一些特殊的bean，例如environment, systemProperties等配置类
 			 */
 			prepareBeanFactory(beanFactory);
 
 			try {
 				// Allows post-processing of the bean factory in context subclasses.
+				/**
+				 * 步骤四：
+				 * 	允许在上下文子类中注册特殊的BeanPostProcessors
+				 */
 				postProcessBeanFactory(beanFactory);
 
 				// Invoke factory processors registered as beans in the context.
+				/**
+				 * 步骤五：
+				 * 按序实例化并调用所有已注册的BeanFactoryPostProcessor Bean
+				 */
 				invokeBeanFactoryPostProcessors(beanFactory);
 
 				// Register bean processors that intercept bean creation.
+				/**
+				 * 步骤六：
+				 *	按序实例化并调用所有已注册的BeanPostProcessor Bean
+				 */
 				registerBeanPostProcessors(beanFactory);
 
 				// Initialize message source for this context.
+				/**
+				 * 步骤七：
+				 *	初始化 MessageSource
+				 */
 				initMessageSource();
 
 				// Initialize event multicaster for this context.
+				/**
+				 * 步骤八：
+				 *	初始化事件管理器：管理事件监听器并具有事件发布能力
+				 */
 				initApplicationEventMulticaster();
 
 				// Initialize other special beans in specific context subclasses.
+				/**
+				 * 步骤九：
+				 *  允许子类实现特殊的context-specific refresh work
+				 */
 				onRefresh();
 
 				// Check for listener beans and register them.
+				/**
+				 * 步骤十：
+				 * 	注册事件监听器 listener
+				 */
 				registerListeners();
 
 				// Instantiate all remaining (non-lazy-init) singletons.
+				/**
+				 * 步骤十一：
+				 *	初始化bean factory并实例化所有单例对象
+				 */
 				finishBeanFactoryInitialization(beanFactory);
 
 				// Last step: publish corresponding event.
@@ -713,6 +747,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * initialization. All bean definitions will have been loaded, but no beans
 	 * will have been instantiated yet. This allows for registering special
 	 * BeanPostProcessors etc in certain ApplicationContext implementations.
+	 * --允许在ApplicationContext具体实现类中注册特殊的BeanPostProcessors
 	 * @param beanFactory the bean factory used by the application context
 	 */
 	protected void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
@@ -1403,7 +1438,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	/**
 	 * Subclasses must implement this method to perform the actual configuration load.
-	 * (子类必须实现具体的配置加载)
+	 * (子类必须实现具体的配置加载方式)
 	 * The method is invoked by {@link #refresh()} before any other initialization work.
 	 * <p>A subclass will either create a new bean factory and hold a reference to it,
 	 * or return a single BeanFactory instance that it holds. In the latter case, it will
