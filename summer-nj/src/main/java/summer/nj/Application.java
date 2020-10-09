@@ -5,6 +5,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import summer.nj.config.SummerConfig;
 import summer.nj.service.impl.PrintServiceImpl;
 
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author Oliver Wang
  * @description
@@ -13,8 +16,11 @@ import summer.nj.service.impl.PrintServiceImpl;
  * @since
  */
 public class Application {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
+		// 使用配置类配置spring
 		ApplicationContext context = new AnnotationConfigApplicationContext(SummerConfig.class);
 		context.getBean(PrintServiceImpl.class).hello();
+
+		TimeUnit.SECONDS.sleep(10);
 	}
 }

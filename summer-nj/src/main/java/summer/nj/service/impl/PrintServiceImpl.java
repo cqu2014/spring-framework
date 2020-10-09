@@ -22,4 +22,9 @@ public class PrintServiceImpl implements PrintService {
 	public void hello(String prefix) {
 		Console.log("Hello {},I miss you so much",prefix);
 	}
+
+	@Override
+	public void destroy() {
+		Console.log("PrintServiceImpl destroy");
+	}
 }

@@ -14,7 +14,8 @@ import java.util.Arrays;
 /**
  * @author Oliver Wang
  * @description BeanFactoryPostProcessor是spring提供的另外一个钩子函数
- * 	在所有bean definition均加载完毕但是尚未初始化时调用，允许用户任意修改所有bean的属性
+ * 	在所有bean definition均加载完毕但是尚未初始化时调用，允许用户操作BeanFactory并任意修改所有bean的属性
+ * 	spring 初始化容器只执行一次
  * @created IDEAJ 2020.02
  * @date Create at 2020/9/29
  * @since
@@ -32,5 +33,6 @@ public class MyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 		DefaultListableBeanFactory factory = (DefaultListableBeanFactory) beanFactory;
 		BeanDefinition beanDefinition = factory.getBeanDefinition("printServiceImpl");
 		beanDefinition.setDescription("Oliver change it before initial");
+		beanDefinition.setDestroyMethodName("destroy");
 	}
 }

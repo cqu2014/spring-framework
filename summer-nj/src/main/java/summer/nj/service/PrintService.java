@@ -20,4 +20,9 @@ public interface PrintService {
 	 * @param prefix
 	 */
 	void hello(String prefix);
+
+	/**
+	 * 自定义收尾函数
+	 */
+	void destroy();
 }
