@@ -7,8 +7,6 @@ import summer.nj.extend.LifecycleBean;
 import summer.nj.service.impl.PrintServiceImpl;
 import summer.nj.util.SpringContextUtil;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * @author Oliver Wang
  * @description
@@ -17,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  * @since
  */
 public class Application {
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) {
 		// 使用配置类配置spring
 		ApplicationContext context = new AnnotationConfigApplicationContext(SummerConfig.class);
 		context.getBean(PrintServiceImpl.class).hello();
@@ -28,6 +26,8 @@ public class Application {
 		// 在此处将 applicationContext 赋值保存到非spring bean的类SpringContextUtil中
 		SpringContextUtil.setApplicationContext(context);
 		SpringContextUtil.getBean(PrintServiceImpl.class).hello(" ApplicationContextAware ");
-		TimeUnit.SECONDS.sleep(10);
+
+		System.out.println("***********************AnimalFactoryBean(Tiger)*******************************");
+		System.out.println(context.getBean("animal").getClass());
 	}
 }

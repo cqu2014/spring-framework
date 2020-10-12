@@ -1,7 +1,10 @@
 package summer.nj.config;
 
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import summer.nj.dto.Animal;
+import summer.nj.factorybean.AnimalFactoryBean;
 
 /**
  * @author Oliver Wang
@@ -13,4 +16,9 @@ import org.springframework.context.annotation.ComponentScan;
 @Configurable
 @ComponentScan(basePackages = {"summer.nj"})
 public class SummerConfig {
+
+	@Bean("animal")
+	public AnimalFactoryBean animalFactoryBean(){
+		return new AnimalFactoryBean("Tiger");
+	}
 }

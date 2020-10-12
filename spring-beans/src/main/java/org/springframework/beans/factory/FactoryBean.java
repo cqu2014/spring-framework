@@ -23,14 +23,18 @@ import org.springframework.lang.Nullable;
  * are themselves factories for individual objects. If a bean implements this
  * interface, it is used as a factory for an object to expose, not directly as a
  * bean instance that will be exposed itself.
+ * -- 该接口的实现作为类的factory暴露出来以实现个性化的bean
  *
  * <p><b>NB: A bean that implements this interface cannot be used as a normal bean.</b>
  * A FactoryBean is defined in a bean style, but the object exposed for bean
  * references ({@link #getObject()}) is always the object that it creates.
  *
+ * -- 但是通过getObject暴露出的是其创建的bean的引用
+ *
  * <p>FactoryBeans can support singletons and prototypes, and can either create
  * objects lazily on demand or eagerly on startup. The {@link SmartFactoryBean}
  * interface allows for exposing more fine-grained behavioral metadata.
+ * -- SmartFactoryBean增加了isPrototype和isEagerInit方法
  *
  * <p>This interface is heavily used within the framework itself, for example for
  * the AOP {@link org.springframework.aop.framework.ProxyFactoryBean} or the
@@ -43,16 +47,22 @@ import org.springframework.lang.Nullable;
  * bootstrap process, even ahead of any post-processor setup. If you need access to
  * other beans, implement {@link BeanFactoryAware} and obtain them programmatically.
  *
+ * -- 如果需要使用其他的beans，实现BeanFactoryAware以编程的方式获取
+ *
  * <p><b>The container is only responsible for managing the lifecycle of the FactoryBean
  * instance, not the lifecycle of the objects created by the FactoryBean.</b> Therefore,
  * a destroy method on an exposed bean object (such as {@link java.io.Closeable#close()}
  * will <i>not</i> be called automatically. Instead, a FactoryBean should implement
  * {@link DisposableBean} and delegate any such close call to the underlying object.
  *
+ * -- FactoryBean仅代表工厂的生命周期而非其创建的bean
+ *
  * <p>Finally, FactoryBean objects participate in the containing BeanFactory's
  * synchronization of bean creation. There is usually no need for internal
  * synchronization other than for purposes of lazy initialization within the
  * FactoryBean itself (or the like).
+ *
+ * -- 其创建的bean在Ioc容器中是同步创建的是线程安全的
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
