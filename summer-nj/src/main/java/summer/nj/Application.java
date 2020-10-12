@@ -5,6 +5,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import summer.nj.config.SummerConfig;
 import summer.nj.extend.LifecycleBean;
 import summer.nj.service.impl.PrintServiceImpl;
+import summer.nj.util.SpringContextUtil;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,6 +23,11 @@ public class Application {
 		context.getBean(PrintServiceImpl.class).hello();
 		System.out.println(context.getBean(LifecycleBean.class).getBeanName());
 		System.gc();
+
+		System.out.println("***********************SpringContextUtil*******************************");
+		// 在此处将 applicationContext 赋值保存到非spring bean的类SpringContextUtil中
+		SpringContextUtil.setApplicationContext(context);
+		SpringContextUtil.getBean(PrintServiceImpl.class).hello(" ApplicationContextAware ");
 		TimeUnit.SECONDS.sleep(10);
 	}
 }
