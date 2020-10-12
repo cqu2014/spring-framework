@@ -20,6 +20,7 @@ package org.springframework.beans.factory;
  * Interface to be implemented by beans that need to react once all their properties
  * have been set by a {@link BeanFactory}: e.g. to perform custom initialization,
  * or merely to check that all mandatory properties have been set.
+ * -在所有属性均设置值后调用，用于check是否所有属性均设置完成
  *
  * <p>An alternative to implementing {@code InitializingBean} is specifying a custom
  * init method, for example in an XML bean definition. For a list of all bean
@@ -40,6 +41,7 @@ public interface InitializingBean {
 	 * configuration and final initialization when all bean properties have been set.
 	 * @throws Exception in the event of misconfiguration (such as failure to set an
 	 * essential property) or if initialization fails for any other reason
+	 * --所有设置完成后由BeanFactory调用以验证其属性的设置
 	 */
 	void afterPropertiesSet() throws Exception;
 

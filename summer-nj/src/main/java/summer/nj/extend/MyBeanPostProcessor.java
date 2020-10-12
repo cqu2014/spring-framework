@@ -1,10 +1,11 @@
-package summer.nj.service.impl;
+package summer.nj.extend;
 
 import cn.hutool.core.lang.Console;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
+import summer.nj.service.impl.PrintServiceImpl;
 
 /**
  * @author Oliver Wang
@@ -19,6 +20,7 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
 
 	@Override
 	public Object postProcessBeforeInitialization(@NonNull Object bean, @NonNull String beanName) throws BeansException {
+		Console.log("**********************start {}****************************",beanName);
 		Console.log("Before: beanName={} => bean=[{}]",beanName, bean);
 		if (bean instanceof PrintServiceImpl){
 			PrintServiceImpl newBean = (PrintServiceImpl) bean;
@@ -31,7 +33,8 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
 	public Object postProcessAfterInitialization(@NonNull Object bean, @NonNull String beanName) throws BeansException {
 		Console.log("After: beanName={} => bean=[{}]",beanName, bean);
 		Console.log("{} classLoader {}",beanName,bean.getClass().getClassLoader().getClass());
-		Console.log("**********************{}****************************",beanName);
+		Console.log("**********************end {}****************************",beanName);
+		System.out.println();
 		return bean;
 	}
 }

@@ -21,7 +21,7 @@ package org.springframework.beans.factory;
  * A {@link BeanFactory} will invoke the destroy method on individual destruction of a
  * scoped bean. An {@link org.springframework.context.ApplicationContext} is supposed
  * to dispose all of its singletons on shutdown, driven by the application lifecycle.
- *
+ *-- BeanFactory会调用以释放资源，上下文处理所有单例的destroy在关闭的时候
  * <p>A Spring-managed bean may also implement Java's {@link AutoCloseable} interface
  * for the same purpose. An alternative to implementing an interface is specifying a
  * custom destroy method, for example in an XML bean definition. For a list of all
