@@ -3,6 +3,7 @@ package summer.nj;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import summer.nj.config.SummerConfig;
+import summer.nj.dto.Animal;
 import summer.nj.extend.LifecycleBean;
 import summer.nj.service.impl.PrintServiceImpl;
 import summer.nj.util.SpringContextUtil;
@@ -18,6 +19,16 @@ public class Application {
 	public static void main(String[] args) {
 		// 使用配置类配置spring
 		ApplicationContext context = new AnnotationConfigApplicationContext(SummerConfig.class);
+		extend(context);
+
+	}
+
+	/**
+	 * 验证spring扩展接口功能
+	 *
+	 * @param context
+	 */
+	private static void extend(ApplicationContext context){
 		context.getBean(PrintServiceImpl.class).hello();
 		System.out.println(context.getBean(LifecycleBean.class).getBeanName());
 		System.gc();
@@ -27,7 +38,8 @@ public class Application {
 		SpringContextUtil.setApplicationContext(context);
 		SpringContextUtil.getBean(PrintServiceImpl.class).hello(" ApplicationContextAware ");
 
-		System.out.println("***********************AnimalFactoryBean(Tiger)*******************************");
-		System.out.println(context.getBean("animal").getClass());
+		System.out.println("********在配置文件中实例化AnimalFactoryBean传入Tiger对象***************");
+		Animal animal =  context.getBean(Animal.class);
+		animal.move();
 	}
 }
