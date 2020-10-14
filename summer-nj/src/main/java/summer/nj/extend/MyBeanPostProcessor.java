@@ -20,8 +20,8 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
 
 	@Override
 	public Object postProcessBeforeInitialization(@NonNull Object bean, @NonNull String beanName) throws BeansException {
-		Console.log("**********************start {}****************************",beanName);
-		Console.log("Before: beanName={} => bean=[{}]",beanName, bean);
+		Console.log("**********************MyBeanPostProcessor start {}****************************",beanName);
+		Console.log("BeforeInitialization: beanName={} => bean=[{}]",beanName, bean);
 		if (bean instanceof PrintServiceImpl){
 			PrintServiceImpl newBean = (PrintServiceImpl) bean;
 			newBean.hello("MyBeanPostProcessor ");
@@ -31,9 +31,9 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
 
 	@Override
 	public Object postProcessAfterInitialization(@NonNull Object bean, @NonNull String beanName) throws BeansException {
-		Console.log("After: beanName={} => bean=[{}]",beanName, bean);
+		Console.log("AfterInitialization: beanName={} => bean=[{}]",beanName, bean);
 		Console.log("{} classLoader {}",beanName,bean.getClass().getClassLoader().getClass());
-		Console.log("**********************end {}****************************",beanName);
+		Console.log("**********************MyBeanPostProcessor end {}****************************",beanName);
 		System.out.println();
 		return bean;
 	}

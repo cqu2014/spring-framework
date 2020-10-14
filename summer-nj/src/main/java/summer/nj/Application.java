@@ -33,13 +33,14 @@ public class Application {
 		System.out.println(context.getBean(LifecycleBean.class).getBeanName());
 		System.gc();
 
-		System.out.println("***********************SpringContextUtil*******************************");
+		System.out.println("#############################SpringContextUtil##############################");
 		// 在此处将 applicationContext 赋值保存到非spring bean的类SpringContextUtil中
 		SpringContextUtil.setApplicationContext(context);
 		SpringContextUtil.getBean(PrintServiceImpl.class).hello(" ApplicationContextAware ");
 
-		System.out.println("********在配置文件中实例化AnimalFactoryBean传入Tiger对象***************");
-		Animal animal =  context.getBean(Animal.class);
+		System.out.println("####################在配置文件中实例化AnimalFactoryBean传入Tiger对象#################");
+		// new AnimalFactoryBean("Tiger")返回的不是AnimalFactoryBean本身而是其泛型参数类型的对象
+		Animal animal = context.getBean(Animal.class);
 		animal.move();
 	}
 }

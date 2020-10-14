@@ -32,6 +32,11 @@ public class LifecycleBean implements InitializingBean, DisposableBean {
 		System.out.println("destroy is invoking");
 	}
 
+	/**
+	 * 对象属性设置完成被触发
+	 *
+	 * @throws Exception
+	 */
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if (StringUtils.isEmpty(beanName)){

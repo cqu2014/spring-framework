@@ -28,10 +28,14 @@ configurations {
 
 dependencies {
     compile(project(":spring-context"))
+    compile(project(":spring-context-indexer"))
+    compile(project(":spring-context-support"))
     compile(project(":spring-core"))
     compile(project(":spring-beans"))
     compile(project(":spring-aspects"))
     compile(project(":spring-expression"))
+    compile(project(":spring-instrument"))
+    compile(project(":spring-web"))
     compile group: 'com.google.guava', name: 'guava', version: '23.0'
     compile group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: '2.3.4.RELEASE'
     compile 'cn.hutool:hutool-all:5.4.3'
