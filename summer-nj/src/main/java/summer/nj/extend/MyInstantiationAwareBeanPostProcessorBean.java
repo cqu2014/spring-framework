@@ -10,7 +10,7 @@ import java.lang.reflect.Constructor;
 
 /**
  * @author Oliver Wang
- * @description
+ * @description InstantiationAwareBeanPostProcessor又代表了Spring的另外一段生命周期：实例化
  * @created by IntelliJ IDEA 2020.02
  * @date Create at 2020/10/14
  * @since

@@ -2,6 +2,7 @@ package summer.nj;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import summer.nj.config.OliverConfig;
 import summer.nj.config.SummerConfig;
 import summer.nj.dto.Animal;
 import summer.nj.extend.LifecycleBean;
@@ -18,7 +19,7 @@ import summer.nj.util.SpringContextUtil;
 public class Application {
 	public static void main(String[] args) {
 		// 使用配置类配置spring
-		ApplicationContext context = new AnnotationConfigApplicationContext(SummerConfig.class);
+		ApplicationContext context = new AnnotationConfigApplicationContext(SummerConfig.class, OliverConfig.class);
 		extend(context);
 
 	}

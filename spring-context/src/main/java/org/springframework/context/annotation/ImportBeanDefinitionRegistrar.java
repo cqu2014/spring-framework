@@ -58,6 +58,12 @@ import org.springframework.core.type.AnnotationMetadata;
  * @see ImportSelector
  * @see Configuration
  */
+
+/**
+ * 1. 实现该接口的类拥有注册bean的能力
+ * 2. ImportBeanDefinitionRegistrar类只能通过其他@Configuration类使用@Import的方式来加载
+ * 3. 使用@Import，如果括号中的类是ImportBeanDefinitionRegistrar的实现类，则会调用接口方法，将其中要注册的类注册成bean
+ */
 public interface ImportBeanDefinitionRegistrar {
 
 	/**
@@ -95,6 +101,10 @@ public interface ImportBeanDefinitionRegistrar {
 	 * <p>The default implementation is empty.
 	 * @param importingClassMetadata annotation metadata of the importing class
 	 * @param registry current bean definition registry
+	 */
+	/**
+	 * importingClassMetadata 当前类的注解信息
+	 * registry 注册类，将bean注入Ioc容器中
 	 */
 	default void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
 	}
