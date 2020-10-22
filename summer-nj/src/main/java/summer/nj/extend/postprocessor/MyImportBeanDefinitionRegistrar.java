@@ -1,4 +1,4 @@
-package summer.nj.extend;
+package summer.nj.extend.postprocessor;
 
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
@@ -27,9 +27,9 @@ public class MyImportBeanDefinitionRegistrar implements ImportBeanDefinitionRegi
 	 */
 	@Override
 	public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-		// 扫描注解
+		// 获取当前类上ComponentScan注解的属性信息
 		Map<String, Object> annotationAttributes = importingClassMetadata.getAnnotationAttributes(ComponentScan.class.getName());
-		// 获取需要扫表scan的包
+		// 从注解属性集合中获取需要扫描的basePackages
 		String[] basePackages = (String[]) annotationAttributes.get("basePackages");
 		ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(registry, false);
 		AssignableTypeFilter typeFilter = new AssignableTypeFilter(AutoRegisterBean.class);

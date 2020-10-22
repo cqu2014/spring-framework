@@ -1,4 +1,4 @@
-package summer.nj.extend;
+package summer.nj.extend.postprocessor;
 
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -6,7 +6,6 @@ import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import summer.nj.annotation.Oliver;
 
-import javax.annotation.Nonnull;
 import java.util.Set;
 
 /**
@@ -27,7 +26,7 @@ public class MyClassPathBeanDefinitionScanner extends ClassPathBeanDefinitionSca
 	}
 
 	@Override
-	protected Set<BeanDefinitionHolder> doScan(@Nonnull String... basePackages) {
+	protected Set<BeanDefinitionHolder> doScan(String... basePackages) {
 		return super.doScan(basePackages);
 	}
 }

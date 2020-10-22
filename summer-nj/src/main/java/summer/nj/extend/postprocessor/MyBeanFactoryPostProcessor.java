@@ -1,15 +1,12 @@
-package summer.nj.extend;
+package summer.nj.extend.postprocessor;
 
 import cn.hutool.core.lang.Console;
-import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -32,7 +29,7 @@ public class MyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 	 * @throws BeansException
 	 */
 	@Override
-	public void postProcessBeanFactory(@NonNull ConfigurableListableBeanFactory beanFactory) throws BeansException {
+	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 		Console.log("BeanFactoryPostProcessor...postProcessBeanFactory...");
 		int count = beanFactory.getBeanDefinitionCount();
 		String[] names = beanFactory.getBeanDefinitionNames();

@@ -1,4 +1,4 @@
-package summer.nj.extend;
+package summer.nj.extend.postprocessor;
 
 import cn.hutool.core.lang.Console;
 import org.springframework.beans.BeansException;
@@ -19,7 +19,7 @@ import summer.nj.service.impl.PrintServiceImpl;
 public class MyBeanPostProcessor implements BeanPostProcessor {
 
 	@Override
-	public Object postProcessBeforeInitialization(@NonNull Object bean, @NonNull String beanName) throws BeansException {
+	public Object postProcessBeforeInitialization(Object bean,String beanName) throws BeansException {
 		Console.log("**********************MyBeanPostProcessor start {}****************************",beanName);
 		Console.log("BeforeInitialization: beanName={} => bean=[{}]",beanName, bean);
 		if (bean instanceof PrintServiceImpl){
@@ -30,7 +30,7 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
 	}
 
 	@Override
-	public Object postProcessAfterInitialization(@NonNull Object bean, @NonNull String beanName) throws BeansException {
+	public Object postProcessAfterInitialization(Object bean,String beanName) throws BeansException {
 		Console.log("AfterInitialization: beanName={} => bean=[{}]",beanName, bean);
 		Console.log("{} classLoader {}",beanName,bean.getClass().getClassLoader().getClass());
 		Console.log("**********************MyBeanPostProcessor end {}****************************",beanName);

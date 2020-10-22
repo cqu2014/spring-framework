@@ -21,17 +21,12 @@ import org.springframework.lang.Nullable;
 /**
  * Interface that defines abstract metadata of a specific class,
  * in a form that does not require that class to be loaded yet.
- *
+ *	 定义处理class类型的功能, 不需要加载class
  * @author Juergen Hoeller
  * @since 2.5
  * @see StandardClassMetadata
  * @see org.springframework.core.type.classreading.MetadataReader#getClassMetadata()
  * @see AnnotationMetadata
- */
-
-/**
- * 定义处理class类型的功能
- * 不需要加载class
  */
 public interface ClassMetadata {
 

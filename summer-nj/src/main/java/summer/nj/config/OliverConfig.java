@@ -3,7 +3,7 @@ package summer.nj.config;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import summer.nj.extend.OliverAutoConfigureMyRegistrar;
+import summer.nj.extend.postprocessor.OliverAutoConfigureMyRegistrar;
 
 /**
  * @author Oliver Wang

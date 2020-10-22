@@ -66,10 +66,10 @@ public class StandardAnnotationMetadata extends StandardClassMetadata implements
 	}
 
 	/**
-	 * Create a new {@link StandardAnnotationMetadata} wrapper for the given Class,
-	 * providing the option to return any nested annotations(嵌套注解) or annotation arrays in the
+	 * Create a new {@link StandardAnnotationMetadata} wrapper for the given Class
+	 * providing the option to return any nested annotations or annotation arrays in the
 	 * form of {@link org.springframework.core.annotation.AnnotationAttributes} instead
-	 * of actual {@link Annotation} instances.（提供获取嵌套注解或者注解列表的能力）
+	 * of actual {@link Annotation} instances.
 	 * @param introspectedClass the Class to introspect
 	 * @param nestedAnnotationsAsMap return nested annotations and annotation arrays as
 	 * {@link org.springframework.core.annotation.AnnotationAttributes} for compatibility

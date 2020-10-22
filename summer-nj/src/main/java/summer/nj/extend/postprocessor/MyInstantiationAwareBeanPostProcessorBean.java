@@ -1,4 +1,4 @@
-package summer.nj.extend;
+package summer.nj.extend.postprocessor;
 
 import cn.hutool.core.lang.Console;
 import org.springframework.beans.BeansException;

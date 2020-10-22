@@ -1,11 +1,7 @@
 package summer.nj.config;
 
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.ImportResource;
-import summer.nj.extend.MyImportBeanDefinitionRegistrar;
+import org.springframework.context.annotation.*;
+import summer.nj.extend.postprocessor.MyImportBeanDefinitionRegistrar;
 import summer.nj.factorybean.AnimalFactoryBean;
 
 /**
@@ -15,7 +11,7 @@ import summer.nj.factorybean.AnimalFactoryBean;
  * @date Create at 2020/9/21
  * @since
  */
-@Configurable
+@Configuration
 @ComponentScan(basePackages = {"summer.nj"})
 // @Import(CarConfig.class) // 通过@Import注解引入产生Car实例的配置类
 @ImportResource("classpath:beans/commonBean.xml")
