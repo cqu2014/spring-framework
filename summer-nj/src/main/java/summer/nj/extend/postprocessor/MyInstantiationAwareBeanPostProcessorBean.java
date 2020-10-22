@@ -15,7 +15,7 @@ import java.lang.reflect.Constructor;
  * @date Create at 2020/10/14
  * @since
  */
-@Component
+// @Component
 public class MyInstantiationAwareBeanPostProcessorBean extends InstantiationAwareBeanPostProcessorAdapter {
 	@Override
 	public Class<?> predictBeanType(Class<?> beanClass, String beanName) throws BeansException {

@@ -2,6 +2,8 @@ package summer.nj.dto;
 
 import summer.nj.annotation.Oliver;
 
+import javax.annotation.PostConstruct;
+
 /**
  * @author Oliver Wang
  * @description
@@ -11,4 +13,11 @@ import summer.nj.annotation.Oliver;
  */
 @Oliver
 public class OliverBean {
+	private String name;
+
+	@PostConstruct
+   	private void init(){
+		name = "OliverWang";
+		System.out.println(name);
+	}
 }

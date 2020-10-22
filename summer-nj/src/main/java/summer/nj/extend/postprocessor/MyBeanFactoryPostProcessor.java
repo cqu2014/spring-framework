@@ -20,7 +20,7 @@ import java.util.Arrays;
  * @date Create at 2020/9/29
  * @since
  */
-@Component
+// @Component
 public class MyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 	/**
 	 *	ConfigurableListableBeanFactory功能非常丰富，最基本的，它携带了每个Bean的基本信息

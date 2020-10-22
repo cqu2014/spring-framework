@@ -15,7 +15,7 @@ import summer.nj.service.impl.PrintServiceImpl;
  * @date Create at 2020/9/29
  * @since
  */
-@Component
+// @Component
 public class MyBeanPostProcessor implements BeanPostProcessor {
 
 	@Override

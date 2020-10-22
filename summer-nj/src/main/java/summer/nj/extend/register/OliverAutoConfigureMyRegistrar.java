@@ -1,4 +1,4 @@
-package summer.nj.extend.postprocessor;
+package summer.nj.extend.register;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
