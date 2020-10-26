@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 
 /**
  * Indicate that the annotated element represents a stereotype for the index.
- *
+ * --Spring的模式注解添加索引，以提升应用启动性，但是存在扫不到包的问题
  * <p>The {@code CandidateComponentsIndex} is an alternative to classpath
  * scanning that uses a metadata file generated at compilation time. The
  * index allows retrieving the candidate components (i.e. fully qualified

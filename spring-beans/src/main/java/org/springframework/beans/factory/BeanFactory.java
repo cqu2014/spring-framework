@@ -29,22 +29,22 @@ import org.springframework.lang.Nullable;
  * are available for specific purposes.
  *
  * <p>This interface is implemented by objects that hold a number of bean definitions,
- * each uniquely identified by a String name(Î¨Ò»±êÊ¾). Depending on the bean definition,
+ * each uniquely identified by a String name(å”¯ä¸€æ ‡ç¤º). Depending on the bean definition,
  * the factory will return either an independent instance of a contained object
  * (the Prototype design pattern), or a single shared instance (a superior
  * alternative to the Singleton design pattern, in which the instance is a
  * singleton in the scope of the factory). Which type of instance will be returned
  * depends on the bean factory configuration: the API is the same. Since Spring
- * 2.0, further scopes(¸ü¶àµÄ×÷ÓÃÓò) are available depending on the concrete application
+ * 2.0, further scopes(æ›´å¤šçš„ä½œç”¨åŸŸ) are available depending on the concrete application
  * context (e.g. "request" and "session" scopes in a web environment).
  *
  * <p>The point of this approach is that the BeanFactory is a central registry
- * of application components£¨¼¯ÖĞÌá¹©×é¼ş×¢²á¹¦ÄÜ£©, and centralizes configuration£¨¼¯ÖĞ¹ÜÀíÅäÖÃĞÅÏ¢£©
+ * of application componentsï¼ˆé›†ä¸­æä¾›ç»„ä»¶æ³¨å†ŒåŠŸèƒ½ï¼‰, and centralizes configurationï¼ˆé›†ä¸­ç®¡ç†é…ç½®ä¿¡æ¯ï¼‰
  * of application components (no more do individual objects need to read properties files,
  * for example). See chapters 4 and 11 of "Expert One-on-One J2EE Design and
  * Development" for a discussion of the benefits of this approach.
  *
- * <p>Note that it is generally better to rely on Dependency Injection£¨ÒÀÀµ×¢ÈëÓÅÓÚÊÖ¶¯ÉèÖÃ£©
+ * <p>Note that it is generally better to rely on Dependency Injectionï¼ˆä¾èµ–æ³¨å…¥ä¼˜äºæ‰‹åŠ¨è®¾ç½®ï¼‰
  * ("push" configuration) to configure application objects through setters
  * or constructors, rather than use any form of "pull" configuration like a
  * BeanFactory lookup. Spring's Dependency Injection functionality is
@@ -54,7 +54,7 @@ import org.springframework.lang.Nullable;
  * source (such as an XML document), and use the {@code org.springframework.beans}
  * package to configure the beans. However, an implementation could simply return
  * Java objects it creates as necessary directly in Java code. There are no
- * constraints(Ô¼Êø) on how the definitions could be stored: LDAP, RDBMS, XML,
+ * constraints(çº¦æŸ) on how the definitions could be stored: LDAP, RDBMS, XML,
  * properties file, etc. Implementations are encouraged to support references
  * amongst beans (Dependency Injection).
  *
@@ -117,12 +117,12 @@ import org.springframework.lang.Nullable;
 public interface BeanFactory {
 
 	/**
-	 * Used to dereference£¨È¥³ıÒıÓÃ£© a {@link FactoryBean} instance and distinguish it from
+	 * Used to dereferenceï¼ˆå»é™¤å¼•ç”¨ï¼‰ a {@link FactoryBean} instance and distinguish it from
 	 * beans <i>created</i> by the FactoryBean. For example, if the bean named
 	 * {@code myJndiObject} is a FactoryBean, getting {@code &myJndiObject}
 	 * will return the factory, not the instance returned by the factory.
 	 */
-	// Çø±ğ»ñÈ¡FactoryBeanËùÉú³ÉµÄbean(myJndiObject)ºÍfactoryBeanÊµÀı±¾Éí(&myJndiObject)
+	// åŒºåˆ«è·å–FactoryBeanæ‰€ç”Ÿæˆçš„bean(myJndiObject)å’ŒfactoryBeanå®ä¾‹æœ¬èº«(&myJndiObject)
 	String FACTORY_BEAN_PREFIX = "&";
 
 
@@ -210,7 +210,7 @@ public interface BeanFactory {
 	<T> T getBean(Class<T> requiredType, Object... args) throws BeansException;
 
 	/**
-	 * Return a provider(Ìá¹©Õß) for the specified bean, allowing for lazy on-demand retrieval
+	 * Return a provider(æä¾›è€…) for the specified bean, allowing for lazy on-demand retrieval
 	 * of instances, including availability and uniqueness options.
 	 * @param requiredType type the bean must match; can be an interface or superclass
 	 * @return a corresponding provider handle
@@ -250,7 +250,7 @@ public interface BeanFactory {
 	 * @param name the name of the bean to query
 	 * @return whether a bean with the given name is present
 	 */
-	// ÓĞµÈ¼¶ÌåÏµºÍ·ÇµÈ¼¶ÌåÏµÁ½ÖÖ
+	// æœ‰ç­‰çº§ä½“ç³»å’Œéç­‰çº§ä½“ç³»ä¸¤ç§
 	boolean containsBean(String name);
 
 	/**

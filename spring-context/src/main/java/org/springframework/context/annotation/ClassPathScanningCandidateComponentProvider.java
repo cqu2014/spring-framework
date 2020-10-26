@@ -62,6 +62,7 @@ import org.springframework.util.ClassUtils;
 
 /**
  * A component provider that provides candidate components from a base package. Can
+ * --按自定义的类型，查找classpath下符合要求的class文件
  * use {@link CandidateComponentsIndex the index} if it is available of scans the
  * classpath otherwise. Candidate components are identified by applying exclude and
  * include filters. {@link AnnotationTypeFilter}, {@link AssignableTypeFilter} include
