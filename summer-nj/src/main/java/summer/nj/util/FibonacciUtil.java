@@ -16,11 +16,16 @@ public class FibonacciUtil {
         System.out.println(fibonacci(20));
     }
 
+    // Recursion + Memorization
     public static BigInteger fibonacci(int n){
         Map<Integer,BigInteger> cache = new HashMap<>(n);
         cache.put(0,BigInteger.ZERO);
         cache.put(1,BigInteger.ONE);
         cache.put(2,BigInteger.ONE);
-        return cache.computeIfAbsent(n,key -> fibonacci(key-1).add(fibonacci(key-2)));
+        return subStructure(n,cache);
+    }
+
+    private static BigInteger subStructure(int n,Map<Integer,BigInteger> cache){
+        return cache.computeIfAbsent(n,key -> subStructure(key-1,cache).add(subStructure(n-2,cache)));
     }
 }

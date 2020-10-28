@@ -21,7 +21,6 @@ import java.util.Objects;
  * @date Create at 2020/10/21
  * @since
  */
-@Component
 public class OliverAutoConfigureMyRegistrar implements ImportBeanDefinitionRegistrar,
 		ResourceLoaderAware, BeanFactoryAware {
 	// 保存spring context 中的信息
